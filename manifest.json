@@ -46,7 +46,7 @@
         /* 小程序特有相关 */
         "appid" : "wx3b72a1e432257246",
         "setting" : {
-						"checkSiteMap":false
+						"checkSiteMap":false,
             "urlCheck" : false,
             "es6" : true
         },
