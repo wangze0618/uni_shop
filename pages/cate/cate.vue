@@ -1,5 +1,7 @@
 <template>
 	<view>
+		<!-- 自定义搜索组件 my-search -->
+		<my-search @click="goToSearch"></my-search>
 		<view class="scroll-view-container">
 			<!-- left -->
 			<scroll-view class="left-scroll" scroll-y>
@@ -35,12 +37,17 @@ export default {
 		};
 	},
 	methods: {
+		// 点击搜索组件 跳转到 搜索分页
+		goToSearch() {
+			uni.navigateTo({
+				url: '/subpkg/search/search'
+			});
+		},
 		// 点击三级分类项 跳转到 商品列表页goods_list
 		gotoGoodsList(item3) {
 			uni.navigateTo({
 				url: `/subpkg/goods_list/goods_list?cid=${item3.cat_id}`
 			});
-			console.log(item3);
 		},
 		// 激活类名
 		addActive(index) {
@@ -79,7 +86,6 @@ view {
 	.left-scroll {
 		height: 100vh;
 		width: 240rpx;
-		border-right: 0.5px solid #cecece;
 		.left-scroll-item {
 			font-size: 26rpx;
 			background-color: #f7f7f7;
@@ -124,8 +130,6 @@ view {
 					image {
 						width: 120rpx;
 						height: 120rpx;
-						border: 0.5rpx solid #efefef;
-						border-radius: 14rpx;
 					}
 					text {
 						font-size: 24rpx;

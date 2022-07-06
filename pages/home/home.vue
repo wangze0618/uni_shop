@@ -1,4 +1,6 @@
 <template>
+	<!-- 搜索框组件 -->
+	<my-search @click="goToSearch" class="search"></my-search>
 	<!-- 轮播图模块 -->
 	<swiper indicator-active-color="white" :indicator-dots="true" :circular="true" :autoplay="true" :interval="3000" :duration="700">
 		<swiper-item @click="toDetail(item)" v-for="(item, i) in swiperList" :key="i">
@@ -45,6 +47,12 @@ export default {
 		};
 	},
 	methods: {
+		// 点击搜索组件 跳转到 搜索分页
+		goToSearch() {
+			uni.navigateTo({
+				url: '/subpkg/search/search'
+			});
+		},
 		// 点击楼层图片跳转到列表页
 		floorToList(data) {
 			uni.navigateTo({
@@ -109,7 +117,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .floor-list {
 	image {
 		&:active {
