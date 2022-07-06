@@ -1,5 +1,5 @@
 const BASE_URL = 'http://www.uinav.com' //接口地址
-export default (url, method, data) => {
+export default (url, method = 'get', data) => {
 	return new Promise((resolve, reject) => {
 		uni.showLoading({
 			title: 'Loading',

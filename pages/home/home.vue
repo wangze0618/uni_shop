@@ -12,7 +12,7 @@
 	<!-- 楼层模块 -->
 	<view class="floor-list">
 		<view class="floor-item" v-for="(item, i) in floorList" :key="i">
-			<image :src="item.floor_title.image_src" class="floor-title" mode=""></image>
+			<image :src="item.floor_title.image_src" class="floor-title"></image>
 			<view class="floor-img-box">
 				<!-- 左侧图片 -->
 				<view class="left-box">
