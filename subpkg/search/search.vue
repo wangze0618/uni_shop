@@ -27,7 +27,7 @@
 			<uni-icons @click="clearHis()" type="trash" size="22"></uni-icons>
 		</view>
 		<view class="search-history-list">
-			<text @click="searchAgain(item)" class="history-item" v-for="(item, index) in searchHistory" :key="index">{{ item }}</text>
+			<text @click="goToList(item)" class="history-item" v-for="(item, index) in searchHistory" :key="index">{{ item }}</text>
 		</view>
 	</view>
 	<uni-popup ref="popup" type="dialog">
@@ -62,8 +62,10 @@ export default {
 	},
 	methods: {
 		// 点击历史记录重新搜索
-		searchAgain(text) {
-			this.searchText = text;
+		goToList(item) {
+			uni.navigateTo({
+				url: `/subpkg/goods_list/goods_list?query=${item}`
+			});
 		},
 
 		// 确认后清除历史记录
