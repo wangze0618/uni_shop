@@ -48,8 +48,8 @@
 		"setting": {
 			"checkSiteMap": false,
 			"urlCheck": false,
-			"es6": true,
-			"minified": true,
+			"es6": false,
+			"minified": false,
 			"postcss": true
 		},
 		"usingComponents": true

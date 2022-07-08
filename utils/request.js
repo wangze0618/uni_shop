@@ -1,13 +1,14 @@
-const BASE_URL = 'http://www.uinav.com' //接口地址
-export default (url, method = 'get', data) => {
+const BASE_URL = 'https://api-hmugo-web.itheima.net'
+//接口地址
+export default (url, method, data) => {
 	return new Promise((resolve, reject) => {
 		uni.showLoading({
 			title: 'Loading',
 		})
 		uni.request({
 			url: BASE_URL + url,
-			method: method || 'GET',
-			data: data || {},
+			method: method || 'get',
+			data,
 			header: {
 				Authorization: uni.getStorageSync('token')
 			},
