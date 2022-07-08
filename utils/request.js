@@ -29,6 +29,7 @@ export default (url, method = 'get', data) => {
 				reject(err)
 			},
 			complete: (res) => {
+				uni.stopPullDownRefresh()
 				// if (res) {
 				// 	uni.hideLoading()
 				// 	uni.hideToast()

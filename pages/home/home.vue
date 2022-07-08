@@ -58,7 +58,6 @@ export default {
 			uni.navigateTo({
 				url: `/subpkg/goods_list/goods_list?${data.params}`
 			});
-			console.log(data.params);
 		},
 		// 点击轮播图 跳转到 商品详情页面
 		toDetail(item) {
