@@ -14,6 +14,5 @@ export function debounce(fn, delay = 1000) {
 
 // 将商品价格 小数点两位
 export const PriceFixed = (num) => {
-	// return Number(num).toFixed(2)
-	console.log(num);
+	return Number(num).toFixed(2)
 }
