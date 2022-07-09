@@ -20,6 +20,11 @@ export default {
 			loading: false
 		};
 	},
+	onLoad(options) {
+		this.queryObj.query = options.query || '';
+		this.queryObj.cid = options.cid || '';
+		this.getGoodsList();
+	},
 	methods: {
 		// 跳转到 商品详情页
 		goToDetail(goods) {
@@ -32,28 +37,27 @@ export default {
 			try {
 				this.loading = true;
 				const { data } = await getGoodsListData(this.queryObj);
-				this.goodsList = [...this.goodsList, ...data.message.goods];
+				console.log(data);
 				this.total = data.message.total;
+				this.goodsList = [...data.message.goods, ...this.goodsList];
 			} catch (e) {
 				uni.$showMsg();
 			}
 			this.loading = false;
 		}
 	},
-	onLoad(options) {
-		this.queryObj.query = options.query || '';
-		this.queryObj.cid = options.cid || '';
-		this.getGoodsList();
-	},
+
 	// 上拉触底 获取更多
 	onReachBottom() {
-		// 最大页码数
-		let maxNum = Math.ceil(this.total / this.queryObj.pagesize);
+		// 当前最大条数
+		let maxNum = this.queryObj.pagenum * this.queryObj.pagesize;
+
 		// 判断是否还有更多数据
-		if (this.queryObj.pagenum > maxNum) {
+		if (maxNum >= this.total) {
 			return uni.$showMsg('没有更多数据了');
 		}
-		if (!this.loading && this.queryObj.pagesize <= maxNum) {
+		// 当不在加载时 且 当前最大条数<总条数时 再加载数据
+		if (!this.loading && maxNum < this.total) {
 			// 页码自增1
 			this.queryObj.pagenum += 1;
 			// 发起请求
