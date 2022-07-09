@@ -50,7 +50,7 @@
 			"urlCheck": false,
 			"es6": false,
 			"minified": false,
-			"postcss": true
+			"postcss": false
 		},
 		"usingComponents": true
 	},
