@@ -36,84 +36,92 @@
 	</view>
 </template>
 
-<script>
+<script setup>
 import { getSwiperArray, getNavListData, getFloorData } from '@/api/home.js';
-export default {
-	data() {
-		return {
-			swiperList: [],
-			navList: [],
-			floorList: []
-		};
-	},
-	methods: {
-		// 点击搜索组件 跳转到 搜索分页
-		goToSearch() {
-			uni.navigateTo({
-				url: '/subpkg/search/search'
-			});
-		},
-		// 点击楼层图片跳转到列表页
-		floorToList(data) {
-			uni.navigateTo({
-				url: `/subpkg/goods_list/goods_list?${data.params}`
-			});
-		},
-		// 点击轮播图 跳转到 商品详情页面
-		toDetail(item) {
-			uni.navigateTo({
-				url: `/subpkg/goods_detail/goods_detail?goods_id=${item.goods_id}`
-			});
-		},
-		// 点击nav跳转到cate页面
-		navClick(name) {
-			if (name === '分类') {
-				return uni.switchTab({
-					url: '/pages/cate/cate'
-				});
-			}
-		},
-		// 3.获取楼层数据
-		async getFloorList() {
-			try {
-				const { data } = await getFloorData();
-				data.message.forEach(floor => {
-					floor.product_list.forEach(prod => {
-						prod.params = prod.navigator_url.split('?')[1];
-					});
-				});
-				this.floorList = data.message;
-			} catch (e) {
-				uni.$showMsg();
-			}
-		},
-		// 1.获取轮播图数据
-		async getSwiper() {
-			try {
-				const { data } = await getSwiperArray();
-				this.swiperList = data.message;
-			} catch (e) {
-				return uni.$showMsg();
-			}
-			uni.$showMsg('请求数据成功');
-		},
-		// 2.获取分类数据
-		async getNavList() {
-			try {
-				const { data } = await getNavListData();
-				this.navList = data.message;
-			} catch (e) {
-				return uni.$showMsg();
-			}
-			// uni.$showMsg('请求数据成功');
-		}
-	},
-	onLoad: function() {
-		this.getSwiper();
-		this.getNavList();
-		this.getFloorList();
+import { ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import { onLoad, onShow } from '@dcloudio/uni-app';
+import { badege } from '@/utils/tools.js';
+const swiperList = ref([]);
+const navList = ref([]);
+const floorList = ref([]);
+const store = useStore();
+
+// 点击搜索组件 跳转到 搜索分页
+const goToSearch = () => {
+	uni.navigateTo({
+		url: '/subpkg/search/search'
+	});
+};
+// 点击楼层图片跳转到列表页
+const floorToList = data => {
+	uni.navigateTo({
+		url: `/subpkg/goods_list/goods_list?${data.params}`
+	});
+};
+// 点击轮播图 跳转到 商品详情页面
+const toDetail = item => {
+	uni.navigateTo({
+		url: `/subpkg/goods_detail/goods_detail?goods_id=${item.goods_id}`
+	});
+};
+// 点击nav跳转到cate页面
+const navClick = name => {
+	if (name === '分类') {
+		return uni.switchTab({
+			url: '/pages/cate/cate'
+		});
 	}
 };
+// 3.获取楼层数据
+const getFloorList = async () => {
+	try {
+		const { data } = await getFloorData();
+		data.message.forEach(floor => {
+			floor.product_list.forEach(prod => {
+				prod.params = prod.navigator_url.split('?')[1];
+			});
+		});
+		floorList.value = data.message;
+	} catch (e) {
+		uni.$showMsg();
+	}
+};
+// 1.获取轮播图数据
+const getSwiper = async () => {
+	try {
+		const { data } = await getSwiperArray();
+		swiperList.value = data.message;
+	} catch (e) {
+		return uni.$showMsg();
+	}
+	uni.$showMsg('请求数据成功');
+};
+// 2.获取分类数据
+const getNavList = async () => {
+	try {
+		const { data } = await getNavListData();
+		navList.value = data.message;
+	} catch (e) {
+		return uni.$showMsg();
+	}
+};
+
+// 显示角标
+watch(
+	() => store.getters['cart/cartCount'](),
+	newVal => {
+		badege(newVal, 2);
+	},
+	{
+		immediate: true
+	}
+);
+onLoad(() => {
+	getSwiper();
+	getFloorList();
+	getNavList();
+});
 </script>
 
 <style lang="scss" scoped>

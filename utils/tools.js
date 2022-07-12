@@ -16,3 +16,18 @@ export function debounce(fn, delay = 1000) {
 export const PriceFixed = (num) => {
 	return Number(num).toFixed(2)
 }
+
+// 显示角标
+// export const badege = (store, index) => {
+// 	const text = store.getters['cart/cartCount']
+// 	return uni.setTabBarBadge({
+// 		index,
+// 		text: String(text())
+// 	})
+// }
+export const badege = (text, index) => {
+	return uni.setTabBarBadge({
+		index,
+		text: String(text)
+	})
+}

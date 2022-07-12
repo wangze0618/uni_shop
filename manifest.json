@@ -52,7 +52,8 @@
 			"minified": false,
 			"postcss": false
 		},
-		"usingComponents": true
+		"usingComponents": true,
+		"permission": {}
 	},
 	"vueVersion": "3"
 }

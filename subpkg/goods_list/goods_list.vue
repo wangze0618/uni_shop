@@ -37,7 +37,6 @@ export default {
 			try {
 				this.loading = true;
 				const { data } = await getGoodsListData(this.queryObj);
-				console.log(data);
 				this.total = data.message.total;
 				this.goodsList = [...data.message.goods, ...this.goodsList];
 			} catch (e) {

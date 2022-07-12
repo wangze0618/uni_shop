@@ -27,51 +27,72 @@
 
 <script>
 import { getCateListData } from '@/api/cate.js';
+import { ref, watch } from 'vue';
+import { onLoad, onShow } from '@dcloudio/uni-app';
+import { useStore } from 'vuex';
+import { badege } from '@/utils/tools.js';
 export default {
-	data() {
-		return {
-			cateList: [],
-			cateList2: [],
-			leftActive: 0,
-			top: 0
-		};
-	},
-	methods: {
+	setup() {
+		const store = useStore();
+		const cateList = ref([]);
+		const cateList2 = ref([]);
+		const leftActive = ref(0);
+		const top = ref(0);
+
 		// 点击搜索组件 跳转到 搜索分页
-		goToSearch() {
+		const goToSearch = () => {
 			uni.navigateTo({
 				url: '/subpkg/search/search'
 			});
-		},
+		};
 		// 点击三级分类项 跳转到 商品列表页goods_list
-		gotoGoodsList(item3) {
+		const gotoGoodsList = item3 => {
 			uni.navigateTo({
 				url: `/subpkg/goods_list/goods_list?cid=${item3.cat_id}`
 			});
-		},
+		};
 		// 激活类名
-		addActive(index) {
-			this.leftActive = index;
-			this.cateList2 = this.cateList[index].children;
+		const addActive = index => {
+			leftActive.value = index;
+			cateList2.value = cateList.value[index].children;
 			// 修复:切换一级分类后重置滚动条的位置
-			this.top = this.top == 0 ? 0.1 : 0;
-			console.log(this.cateList2);
-		},
-
+			top.value = top.value == 0 ? 0.1 : 0;
+		};
 		// 获取左侧一级分类的数据
-		async getCateList() {
+		const getCateList = async () => {
 			try {
 				const { data } = await getCateListData();
-				this.cateList = data.message;
+				cateList.value = data.message;
 				// 赋值二级分类
-				this.cateList2 = data.message[0].children;
+				cateList2.value = data.message[0].children;
 			} catch (e) {
 				uni.$showMsg();
 			}
-		}
-	},
-	onLoad() {
-		this.getCateList();
+		};
+		// 显示角标
+		watch(
+			() => store.getters['cart/cartCount'](),
+			newVal => {
+				badege(newVal, 2);
+			},
+			{
+				immediate: true
+			}
+		);
+		onLoad(() => {
+			getCateList();
+		});
+
+		return {
+			cateList,
+			cateList2,
+			leftActive,
+			top,
+			goToSearch,
+			gotoGoodsList,
+			addActive,
+			getCateList
+		};
 	}
 };
 </script>
