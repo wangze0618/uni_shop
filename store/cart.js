@@ -66,6 +66,10 @@ export default {
 		totalPrice: (state) => () => {
 			return state.cart.filter(g => g.goods_state).map(g => g.goods_count * g.goods_price).reduce((p, g) =>
 				p + g, 0)
-		}
+		},
+		// 返回所选商品
+		selectedGoods: (state) => () => {
+			return state.cart.filter(g => g.goods_state)
+		},
 	},
 }
