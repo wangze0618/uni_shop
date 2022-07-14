@@ -1,35 +1,39 @@
 <template>
-	<view>{{ a }}</view>
-	<view class="">{{ count }}</view>
-	<button @click="loga()">log</button>
+	<view>
+		<my-login v-if="tokenLength.length == 2 || tokenLength.length == 0"></my-login>
+		<my-userinfo v-else></my-userinfo>
+	</view>
 </template>
 
-<script>
-import { ref, reactive, computed } from 'vue';
-import { onLoad } from '@dcloudio/uni-app';
+<script setup>
+import { ref, watch } from 'vue';
+import { onLoad, onShow } from '@dcloudio/uni-app';
+import { useStore } from 'vuex';
 
-export default {
-	setup() {
-		const goods = reactive({
-			name: 'ss',
-			count: 9
-		});
-		let a = ref(1);
-		const loga = () => {
-			goods.count = 10;
-			goods.local = 'en';
-			console.log(goods);
-		};
+const store = useStore();
 
-		const count = computed(() => {
-			return goods.count;
-		});
-		onLoad(() => {
-			console.log(a.value);
-		});
-		return { a, loga, goods, count };
-	}
-};
+// 获取token
+const token = store.getters['user/token'];
+// console.log(token().length);
+let tokenLength = ref(0);
+watch(
+	() => token(),
+	val => {
+		tokenLength.value = val;
+		console.log(val.length);
+	},
+	{ immediate: true }
+);
+// onShow(() => {
+// 	let redirect = store.getters['user/redirectInfo'];
+// 	console.log(redirect().from);
+// 	console.log(redirect().length);
+// 	if (redirect().from && token().length == 2) {
+// 		uni.switchTab({
+// 			url: `${redirect().from}`
+// 		});
+// 	}
+// });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped></style>

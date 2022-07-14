@@ -7,7 +7,7 @@ export default (url, method, data) => {
 		})
 		uni.request({
 			url: BASE_URL + url,
-			method: method || 'get',
+			method: method,
 			data,
 			header: {
 				Authorization: uni.getStorageSync('token')

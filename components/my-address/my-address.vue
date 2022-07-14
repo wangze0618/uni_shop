@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 选择收货地址的盒子 -->
-		<view class="address-choose-box" v-if="Object.keys(address).length === 0">
+		<view class="address-choose-box" v-if="Object.keys(address()).length === 0">
 			<button type="primary" @click="chooseAddress()" size="mini" class="btnChooseAddress">请选择收货地址+</button>
 		</view>
 
@@ -11,13 +11,13 @@
 				<view class="row1-left">
 					<view class="username">
 						收货人：
-						<text>{{ address.userName }}</text>
+						<text>{{ address().userName }}</text>
 					</view>
 				</view>
 				<view class="row1-right">
 					<view class="phone">
 						电话：
-						<text>{{ address.telNumber }}</text>
+						<text>{{ address().telNumber }}</text>
 					</view>
 					<uni-icons type="arrowright" size="16"></uni-icons>
 				</view>
@@ -38,9 +38,7 @@ import { ref, reactive, computed } from 'vue';
 import { onLoad } from '@dcloudio/uni-app';
 import { useStore } from 'vuex';
 const store = useStore();
-const address = computed(() => {
-	return store.state.user.address;
-});
+const address = store.getters['user/address'];
 const detailAddress = store.getters['user/detailAddress'];
 
 // 获取收货地址

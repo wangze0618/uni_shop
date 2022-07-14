@@ -48,7 +48,6 @@ const options = ref([
 const cartData = computed(() => {
 	return store.state.cart.cart;
 });
-console.log(cartData.value.length);
 // 滑动事件
 const swipFn = data => {
 	store.commit('cart/deleteGoods', data);
